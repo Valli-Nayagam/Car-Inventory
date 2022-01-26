@@ -22,12 +22,22 @@ app.get('/api/get', (req, res) => {
 })
 app.post("/api/insert", (req, res) => {
     const carName = req.body.carName
-    const Description = req.body.Description
-    const Colour = req.body.Colour
-    const Price = req.body.Price
-
-    const sqlInsert = "INSERT INTO InventoryManagement (carName,Description,Colour,Price) VALUES (?,?,?,?)"
-    db.query(sqlInsert, (carName, Description, Colour, Price), (err, results) => {
+    const Description = req.body.description
+    const Colour = req.body.color
+    const Price = req.body.price
+    const sqlInsert = "INSERT INTO InventoryManagement (carName,Description,Colour,Price) VALUES (?,?,?,?);"
+    db.query(sqlInsert, [carName, Description, Colour, Price], (err, results) => {
+        console.log(results)
+    })
+});
+app.post("/api/profile", (req, res) => {
+    console.log(req.body);
+    const firstName = req.body.firstName
+    const lastName = req.body.lastName
+    const email = req.body.email
+    const phoneNo = req.body.phoneNo
+    const sqlInsert = "INSERT INTO Profile (FirstName,LastName,Email,PhoneNumber) VALUES (?,?,?,?);"
+    db.query(sqlInsert, [firstName, lastName, email, phoneNo], (err, results) => {
         console.log(results)
     })
 });
@@ -38,13 +48,24 @@ app.delete("/api/delete/:carName", (req, res) => {
         if (err) console.log(err);
     })
 })
+app.put("/api/update", (req, res) => {
+    const carName = req.body.carName
+    const description = req.body.description
+    const color = req.body.color
+    const Price = req.body.price
+    const oldCarName = req.body.oldCarName
+    const sqlUpdate = "UPDATE InventoryManagement SET carName = ?, Description = ?, Colour = ?, Price = ? WHERE carName = ?;"
+    db.query(sqlUpdate,[carName, description, color, Price, oldCarName], (err, results) => {
+        if (err) console.log(err);
+    })
+})
 
-// app.get('/', (req, res) => {
-//     const sqlInsert = "INSERT INTO InventoryManagement VALUE('TATA Indica Vista', 'This is one of the brand looking cars of tata withmanual and auto transmission torque convertor', 'Grey', 1800000);"
-//     db.query(sqlInsert, (err, results) => {
-//         res.send('server');
-//     })
-// })
+app.get('/', (req, res) => {
+    const sqlInsert = "INSERT INTO InventoryManagement (carName,Description,Colour,Price) VALUES (?,?,?,?);"
+    db.query(sqlInsert, (err, results) => {
+        res.send('server');
+    })
+})
 
 app.listen(3001, () => {
     console.log('server');
