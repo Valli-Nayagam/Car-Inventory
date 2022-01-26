@@ -26,7 +26,7 @@ class Main extends React.Component {
                     </nav>
                     <div className="container">
                         <Routes>
-                            <Route exact path="/profile" element={<Profile />}></Route>
+                            <Route exact path="/" element={<Profile />}></Route>
                             <Route exact path="/list" element={<List />}></Route>
                         </Routes>
                     </div>

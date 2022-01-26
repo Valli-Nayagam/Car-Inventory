@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import Axios from 'axios'
+import carInventory from '../images/carInventory.png';
 
 const style = {
     marginRight: 10
+};
+const img = {
+    backgroundColor: "grey",
+    height: '70px',
+    width: '80px',
 };
 const border = {
     border: '0px solid white'
@@ -97,11 +103,17 @@ function List() {
                         <div className="row d-flex">
                             {arrayList.map((data) => {
                                 return <div className="d-flex">
-                                    <div className="col-1 m-2"><button onClick={() => setAddCartModal(true)} className="btn btn-outline-secondary">Add</button></div>
-                                    <div className="col-9 m-2">
+                                    <div className="col-1 m-1">
+                                        <div className="add-media" style={img}>
+                                            <input id="image" type="file" style={{ display: "none" }} />
+                                            <label for="image"><img style={img} src={carInventory}></img></label>
+                                        </div>
+                                        {/* <button onClick={() => setAddCartModal(true)} className="btn btn-outline-secondary">Add</button> */}
+                                    </div>
+                                    <div className="col-9 m-1">
                                         Car Name:{data.carName} | Description : {data.Description} | Color : {data.Colour} | Price : {data.Price}
                                     </div>
-                                    <div className="col-1 m-2"><button onClick={() => setModalShow(true)} className="btn btn-outline-secondary">Update</button>
+                                    <div className="col-1 m-1"><button onClick={() => setModalShow(true)} className="btn btn-outline-secondary">Update</button>
                                         <div>
                                             <Modal show={modalShow}>
                                                 <Modal.Header>
@@ -160,7 +172,7 @@ function List() {
                                             </Modal>
                                         </div>
                                     </div>
-                                    <div className="col-1 m-2">
+                                    <div className="col-1 m-1">
                                         <button onClick={() => { deleteDescription(data.carName) }} className="btn btn-outline-secondary">Delete</button>
                                     </div>
                                 </div>
