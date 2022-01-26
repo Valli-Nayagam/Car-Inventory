@@ -1,128 +1,150 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
+import Axios from 'axios'
 
 const style = {
     marginRight: 10
 };
-class List extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            description: [
-                {
-                    des: 'Description',
-                    color: 'Green',
-                    name: 'car1',
-                    isAdded: false
-                },
-                {
-                    des: 'Description',
-                    color: 'Green',
-                    name: 'car2',
-                    isAdded: false
-                },
-                {
-                    des: 'Description',
-                    color: 'Green',
-                    name: 'car3',
-                    isAdded: false
-                },
-                {
-                    des: 'Description',
-                    color: 'Green',
-                    name: 'car4',
-                    isAdded: false
-                },
-                {
-                    des: 'Description',
-                    color: 'Green',
-                    name: 'car5',
-                    isAdded: false
+const border = {
+    border: 'none'
+}
+function List() {
+    const [carName, setCarName] = useState("")
+    const [arrayList, setList] = useState([])
+    const [modalShow, setModalShow] = useState(false)
+    const [addCartModal, setAddCartModal] = useState(false)
 
-                },
-                {
-                    des: 'Description',
-                    color: 'Green',
-                    name: 'car6',
-                    isAdded: false
-                }
-            ],
-            show: false,
-            addShow: false
-        }
-        console.log(this.state);
+    useEffect(() => {
+        Axios.get('http://localhost:3001/api/get').then((response) => {
+            setList(response.data)
+        })
+    }, [])
+
+    const submitDescription = () => {
+        // window.location.reload(true)
+        Axios.post('http://localhost:3001/api/insert', {
+        }).then(() => {
+            alert('Success')
+        })
     }
-    addToCart(name) {
-        var cartArray = [];
-        cartArray = this.state.description;
-        console.log(cartArray);
-        const index = this.state.description.findIndex((deleteDes) => { return name === deleteDes.name });
+    const deleteDescription = (carName) => {
+        Axios.delete(`http://localhost:3001/api/delete/${carName}`)
+    }
+
+    // state = {
+    //     description: [
+    //         {
+    //             des: 'Description',
+    //             color: 'Green',
+    //             name: 'car1',
+    //             isAdded: false
+    //         },
+    //         {
+    //             des: 'Description',
+    //             color: 'Green',
+    //             name: 'car2',
+    //             isAdded: false
+    //         },
+    //         {
+    //             des: 'Description',
+    //             color: 'Green',
+    //             name: 'car3',
+    //             isAdded: false
+    //         },
+    //         {
+    //             des: 'Description',
+    //             color: 'Green',
+    //             name: 'car4',
+    //             isAdded: false
+    //         },
+    //         {
+    //             des: 'Desc
+    //             color: 'Green',
+    //             name: 'car5',
+    //             isAdded: false
+
+    //         },
+    //         {
+    //             des: 'Description',
+    //             color: 'Green',
+    //             name: 'car6',
+    //             isAdded: false
+    //         }
+    //     ],
+    //     show: false,
+    //     addShow: false
+    // }
+
+    const addToCart = (name) => {
+        // var cartArray = [];
+        // cartArray = this.state.description;
+        // console.log(cartArray);
+        // const index = this.state.description.findIndex((deleteDes) => { return name === deleteDes.name });
         // cartArray.slice(index, 1);
         // cartArray.isAdded = true;
-        cartArray[index] = { ...cartArray[index], isAdded: true }
-        this.setState({ description: cartArray[index] });
+        // cartArray[index] = { ...cartArray[index], isAdded: true }
+        // this.setState({ description: cartArray[index] });
         // this.setState(prevState => ({
         //     description: prevState.description.map(
         //         des => (index ? Object.assign(des[index], { isAdded: true }) : '')
         //     )
         // }));
-        console.log(cartArray);
+        // console.log(cartArray);
     }
-    updateDescription(name) {
-        console.log(name);
-        const index = this.state.description.findIndex((selectedDes) => { return name === selectedDes.name });
-        this.setState({
-            show: false
-        })
+    
+    const deleteDes = (name) => {
+        // console.log(name);
+        // var desArray = [];
+        // desArray = this.state.description;
+        // const index = this.state.description.findIndex((deleteDes) => { return name === deleteDes.name });
+        // desArray.splice(index, 1);
+        // this.setState({ description: desArray });
+        // console.log(desArray);
     }
-    deleteDes(name) {
-        console.log(name);
-        var desArray = [];
-        desArray = this.state.description;
-        const index = this.state.description.findIndex((deleteDes) => { return name === deleteDes.name });
-        desArray.splice(index, 1);
-        this.setState({ description: desArray });
-        console.log(desArray);
-    }
-
-    render() {
-        return (
-            <div>
-                <div className="container">
-                    <div className="card m-2 h-100">
-                        <div className="card-body">
-                            <div className="row">
-                                <div className="col">
-                                    {this.state.description.map(data => (
-                                        <div className="row">
-                                            <div className="col-2 m-2"><button onClick={() => this.setState({ addShow: true })} className="btn btn-outline-secondary">Add</button></div>
-                                            <div className="col-6 m-2">{data.name} : {data.des}</div>
-                                            <div className="col-1 m-2"><button onClick={() => this.setState({ show: true })} className="btn btn-outline-secondary">Update</button>
+    return (
+        <div>
+            <div className="container">
+                <div className="card m-2 h-100">
+                    <div className="card-body" style={border}>
+                        <div className="row">
+                            <div className="col">
+                                <div className="row d-flex">
+                                    {arrayList.map((data) => {
+                                        return <div className="d-flex">
+                                            <div className="col-1 m-2"><button onClick={()=> setAddCartModal(true)} className="btn btn-outline-secondary">Add</button></div>
+                                            <div className="col-9 m-2">
+                                                Car Name:{data.carName} | Description : {data.Description} | Color : {data.Colour} | Price : {data.Price}
+                                            </div>
+                                            <div className="col-1 m-2"><button onClick={()=> setModalShow(true)} className="btn btn-outline-secondary">Update</button>
                                                 <div>
-                                                    <Modal show={this.state.show}>
+                                                    <Modal show={modalShow}>
                                                         <Modal.Header>
-                                                            Update Description <button className="ml-auto" onClick={() => this.setState({ show: false })}>x</button>
+                                                            Update Description <button onClick={()=> setModalShow(false)} className="ml-auto">x</button>
                                                         </Modal.Header>
                                                         <Modal.Body>
 
                                                             <form className="p-2">
                                                                 <div className="form-group pb-2">
                                                                     <label className="pb-2" for="exampleInputName1">Name</label>
-                                                                    <input type="text" className="form-control" id="exampleInputName1" aria-describedby="NameHelp" defaultValue={data.name}></input>
+                                                                    <input type="text" className="form-control" id="exampleInputName1" aria-describedby="NameHelp" defaultValue={data.carName}></input>
                                                                 </div>
                                                                 <div className="form-group pb-2">
                                                                     <label className="pb-2" for="exampleInputDescription1">Description</label>
-                                                                    <input type="text" className="form-control" id="exampleInputDescription1" defaultValue={data.des}></input>
+                                                                    <input type="text" className="form-control" Name="description" id="exampleInputDescription1" defaultValue={data.Description}></input>
                                                                 </div>
                                                                 <div className="form-group pb-2">
                                                                     <label className="pb-2" for="exampleInputColour1">Colour</label>
-                                                                    <input type="text" className="form-control" id="exampleInputColour1" defaultValue={data.color}></input>
+                                                                    <input type="text" className="form-control" id="exampleInputColour1" defaultValue={data.Colour}></input>
                                                                 </div>
-                                                                <button type="submit" onClick={() => this.updateDescription(data.name)} className="btn btn-outline-primary w-100">Update</button>
+                                                                <div className="form-group pb-2">
+                                                                    <label className="pb-2" for="Price">Price</label>
+                                                                    <input type="text" className="form-control" id="Price" defaultValue={data.Price}></input>
+                                                                </div>
+                                                                <button type="submit" onClick={submitDescription()} className="btn btn-outline-primary w-100">Update</button>
                                                             </form>
                                                         </Modal.Body>
                                                     </Modal>
-                                                    <Modal show={this.state.addShow}>
+                                                    <Modal show={addCartModal}>
                                                         <Modal.Header>
                                                             Add To Cart
                                                         </Modal.Header>
@@ -131,31 +153,60 @@ class List extends React.Component {
                                                         </Modal.Body>
                                                         <Modal.Footer>
                                                             <div className="d-flex">
-                                                                <button style={style} onClick={() => this.setState({ addShow: false })} className="btn btn-outline-secondary">Close</button>
-                                                                <button onClick={() => this.addToCart(data.name)} className="btn btn-outline-secondary">Add</button>
+                                                                <button style={style} onClick={()=> setAddCartModal(false)} className="btn btn-outline-secondary">Close</button>
+                                                                <button onClick={addToCart()} className="btn btn-outline-secondary">Add</button>
                                                             </div>
                                                         </Modal.Footer>
                                                     </Modal>
                                                 </div>
                                             </div>
                                             <div className="col-1 m-2">
-                                                <button onClick={() => this.deleteDes(data.name)} className="btn btn-outline-secondary">Delete</button>
-                                                {data.isAdded ? (<span className="badge badge-sm">Incart</span>) : ''}
+                                                <button onClick={()=>{deleteDescription(data.carName)}} className="btn btn-outline-secondary">Delete</button>
                                             </div>
                                         </div>
-                                    ))}
-                                    {/* {this.state.description.des} , {this.state.description.color} */}
+                                    })}
                                 </div>
+                                {/* {this.state.description.des} , {this.state.description.color} */}
                             </div>
-
                         </div>
+
                     </div>
                 </div>
-
             </div>
-        )
 
-    }
+        </div>
+    )
 }
 
 export default List;
+
+{/* <form className="p-2">
+                                            <div className="form-group pb-2">
+                                                <label className="pb-2" for="exampleInputName1">Name</label>
+                                                <input type="text" className="form-control" id="exampleInputName1" aria-describedby="NameHelp" onChange={(e) => {
+                                                    setName(e.target.value)
+                                                }}></input>
+                                            </div>
+                                            <div className="form-group pb-2">
+                                                <label className="pb-2" for="exampleInputDescription1">Description</label>
+                                                <input type="text" className="form-control" Name="description" id="exampleInputDescription1" onChange={(e) => {
+                                                    setDescription(e.target.value)
+                                                }}></input>
+                                            </div>
+                                            <div className="form-group pb-2">
+                                                <label className="pb-2" for="exampleInputColour1">Colour</label>
+                                                <input type="text" className="form-control" id="exampleInputColour1" onChange={(e) => {
+                                                    setColour(e.target.value)
+                                                }}></input>
+                                            </div>
+                                            <div className="form-group pb-2">
+                                                <label className="pb-2" for="Price">Price</label>
+                                                <input type="text" className="form-control" id="Price" onChange={(e) => {
+                                                    setPrice(e.target.value)
+                                                }}></input>
+                                            </div>
+                                            <button type="submit" onClick={submitDescription()} className="btn btn-outline-primary w-100">Update</button>
+                                            {arrayList.map((val)=>{
+                                                // return <h1>carName:{val.carName} | Description:{val.Description}</h1>
+                                            })}
+                                        </form> */}
