@@ -66,7 +66,7 @@ app.get('/', (req, res) => {
         res.send('server');
     })
 })
-
-app.listen(3001, () => {
+const port = Process.env.PORT || 3000 ;
+app.listen(port, () => {
     console.log('server');
 })
