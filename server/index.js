@@ -55,7 +55,7 @@ app.put("/api/update", (req, res) => {
     const Price = req.body.price
     const oldCarName = req.body.oldCarName
     const sqlUpdate = "UPDATE InventoryManagement SET carName = ?, Description = ?, Colour = ?, Price = ? WHERE carName = ?;"
-    db.query(sqlUpdate,[carName, description, color, Price, oldCarName], (err, results) => {
+    db.query(sqlUpdate, [carName, description, color, Price, oldCarName], (err, results) => {
         if (err) console.log(err);
     })
 })
@@ -66,7 +66,7 @@ app.get('/', (req, res) => {
         res.send('server');
     })
 })
-const port = Process.env.PORT || 3000 ;
-app.listen(port, () => {
+const PORT = 3001;
+app.listen(Process.env.PORT || PORT, () => {
     console.log('server');
 })
