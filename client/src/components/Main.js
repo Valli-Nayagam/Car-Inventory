@@ -19,7 +19,7 @@ class Main extends React.Component {
                         </button>
                         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div className="navbar-nav">
-                                <button className="nav-item nav-link btn btn-warning" style={style}><Link to="/profile">Profile</Link></button>
+                                <button className="nav-item nav-link btn btn-warning" style={style}><Link to="/">Profile</Link></button>
                                 <button className="nav-item nav-link btn btn-warning"><Link to="/list">List of cars</Link></button>
                             </div>
                         </div>
