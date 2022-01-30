@@ -111,7 +111,7 @@ function List() {
                                         {/* <button onClick={() => setAddCartModal(true)} className="btn btn-outline-secondary">Add</button> */}
                                     </div>
                                     <div className="col-9 m-1">
-                                        Car Name:{data.carName} | Description : {data.Description} | Color : {data.Colour} | Price : {data.Price}
+                                        Car Name:<b>{data.carName}</b> | Description : <b>{data.Description}</b> | Color : <b>{data.Colour}</b> | Price : <b>{data.Price}</b>
                                     </div>
                                     <div className="col-1 m-1"><button onClick={() => setModalShow(true)} className="btn btn-outline-secondary">Update</button>
                                         <div>
