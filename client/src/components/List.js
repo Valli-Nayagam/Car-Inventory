@@ -15,6 +15,7 @@ const border = {
     border: '0px solid white'
 }
 function List() {
+    const [carNo, setCarNo] = useState("")
     const [carName, setName] = useState("")
     const [Description, setDescription] = useState("")
     const [Colour, setColour] = useState("")
@@ -35,6 +36,7 @@ function List() {
     const submitDescription = () => {
         // window.location.reload(true)
         Axios.post(`http://localhost:3001/api/insert`, {
+            carNo : carNo,
             carName: carName,
             description: Description,
             color: Colour,
@@ -53,7 +55,7 @@ function List() {
             description: Description,
             color: Colour,
             price: Price,
-            oldCarName: oldCarName
+            carNo: carNo
         });
         setUpdateDes("")
     }
@@ -69,6 +71,12 @@ function List() {
                         </Modal.Header>
                         <Modal.Body>
                             <form className="p-2">
+                                <div className="form-group pb-2">
+                                    <label className="pb-2" for="exampleInputCarNo1">Car No.</label>
+                                    <input type="number" className="form-control" id="exampleInputCarNo1" aria-describedby="carNoHelp" onChange={(n) => {
+                                        setCarNo(n.target.value)
+                                    }}></input>
+                                </div>
                                 <div className="form-group pb-2">
                                     <label className="pb-2" for="exampleInputName1">Name</label>
                                     <input type="text" className="form-control" id="exampleInputName1" aria-describedby="NameHelp" onChange={(e) => {
@@ -111,7 +119,7 @@ function List() {
                                         {/* <button onClick={() => setAddCartModal(true)} className="btn btn-outline-secondary">Add</button> */}
                                     </div>
                                     <div className="col-9 m-1">
-                                        Car Name:<b>{data.carName}</b> | Description : <b>{data.Description}</b> | Color : <b>{data.Colour}</b> | Price : <b>{data.Price}</b>
+                                       Car No.:<b>{data.carNo}</b> Car Name:<b>{data.carName}</b> | Description : <b>{data.Description}</b> | Color : <b>{data.Colour}</b> | Price : <b>{data.Price}</b>
                                     </div>
                                     <div className="col-1 m-1"><button onClick={() => setModalShow(true)} className="btn btn-outline-secondary">Update</button>
                                         <div>
@@ -147,9 +155,9 @@ function List() {
                                                             }}></input>
                                                         </div>
                                                         <div className="form-group pb-2">
-                                                            <label className="pb-2" for="exampleInputName1">Old Car Name</label>
-                                                            <input type="text" className="form-control" id="exampleInputName1" aria-describedby="NameHelp" onChange={(e) => {
-                                                                setOldCarName(e.target.value)
+                                                            <label className="pb-2" for="carNo">Car No.<span className="text-danger mb-2">*</span></label>
+                                                            <input type="text" className="form-control" id="carNo" aria-describedby="NameHelp" onChange={(e) => {
+                                                                setCarNo(e.target.value)
                                                             }}></input>
                                                         </div>
                                                         <button type="submit" onClick={() => { updateDescription() }} className="btn btn-outline-primary w-100">Update</button>

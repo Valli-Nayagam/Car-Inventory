@@ -21,12 +21,14 @@ app.get('/api/get', (req, res) => {
     })
 })
 app.post("/api/insert", (req, res) => {
+    const carNo = req.body.carNo
     const carName = req.body.carName
     const Description = req.body.description
     const Colour = req.body.color
     const Price = req.body.price
-    const sqlInsert = "INSERT INTO InventoryManagement (carName,Description,Colour,Price) VALUES (?,?,?,?);"
-    db.query(sqlInsert, [carName, Description, Colour, Price], (err, results) => {
+    console.log(req.body);
+    const sqlInsert = "INSERT INTO InventoryManagement (carNo,carName,Description,Colour,Price) VALUES (?,?,?,?,?);"
+    db.query(sqlInsert, [carNo,carName, Description, Colour, Price], (err, results) => {
         console.log(results)
     })
 });
@@ -49,13 +51,14 @@ app.delete("/api/delete/:carName", (req, res) => {
     })
 })
 app.put("/api/update", (req, res) => {
+    console.log(req.body);
     const carName = req.body.carName
     const description = req.body.description
     const color = req.body.color
     const Price = req.body.price
-    const oldCarName = req.body.oldCarName
-    const sqlUpdate = "UPDATE InventoryManagement SET carName = ?, Description = ?, Colour = ?, Price = ? WHERE carName = ?;"
-    db.query(sqlUpdate, [carName, description, color, Price, oldCarName], (err, results) => {
+    const carNo = req.body.carNo
+    const sqlUpdate = "UPDATE InventoryManagement SET carName = ?, Description = ?, Colour = ?, Price = ? WHERE carNo = ?;"
+    db.query(sqlUpdate, [carName, description, color, Price, carNo], (err, results) => {
         if (err) console.log(err);
     })
 })
