@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import Axios from 'axios'
 import carInventory from '../images/carInventory.png';
+import { deleteCar } from '../redux';
+import { connect } from 'react-redux';
 
 const style = {
     marginRight: 10
@@ -14,7 +16,7 @@ const img = {
 const border = {
     border: '0px solid white'
 }
-function List() {
+function List(props) {
     const [carNo, setCarNo] = useState("")
     const [carName, setName] = useState("")
     const [Description, setDescription] = useState("")
@@ -46,7 +48,8 @@ function List() {
         })
     };
     const deleteDescription = (carName) => {
-        Axios.delete(`http://localhost:3001/api/delete/${carName}`)
+        Axios.delete(`http://localhost:3001/api/delete/${carName}`);
+        props.deleteCar;
     }
     const updateDescription = () => {
         console.log(carName, Description, Colour, Price)
@@ -59,11 +62,22 @@ function List() {
         });
         setUpdateDes("")
     }
+    const mapStateToProps = state => {
+        return {
+            numOfCars: state.numOfCars
+        }
+    }
+    const mapDispatchToProps = dispatch => {
+        return {
+            deleteCar: () => dispatch(deleteCar())
+        }
+    }
 
     return (
         <div>
             <div className="container">
                 <button onClick={() => setAddProductModal(true)} className="btn btn-outline-secondary m-2 w-100">ADD PRODUCT</button>
+                <div>Total no. of cars : {props.numOfCars}</div>
                 <div>
                     <Modal show={addProductModal}>
                         <Modal.Header>
@@ -195,5 +209,5 @@ function List() {
     )
 }
 
-export default List;
+export default connect(mapStateToProps,mapDispatchToProps)(List);
 
